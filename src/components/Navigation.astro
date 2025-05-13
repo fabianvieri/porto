@@ -1,0 +1,58 @@
+---
+import { Menu } from '@lucide/astro';
+import { Button } from './ui/button';
+
+const navItems = [
+	{ id: 'home', label: 'Home' },
+	{ id: 'about', label: 'About' },
+	{ id: 'portfolio', label: 'Portfolio' },
+	{ id: 'blog', label: 'Blog' },
+];
+
+const isMobile = false;
+const currentPage = '';
+const hoveredItem = '';
+---
+
+<nav class="relative z-20">
+	<div class="flex items-center justify-between px-4 py-6">
+		<div class="text-primary text-xl font-bold">Portfolio</div>
+
+		{
+			isMobile ? (
+				<Button variant="ghost" size="icon" aria-label="Toggle menu">
+					<Menu class="h-6 w-6" />
+				</Button>
+			) : (
+				<div class="flex space-x-8">
+					{navItems.map((item) => (
+						<button
+							class={`nav-link relative ${currentPage === item.id ? 'active' : ''}`}
+						>
+							{item.label}
+							{hoveredItem === item.id && currentPage !== item.id && (
+								<div class="bg-primary/40 absolute bottom-0 left-0 h-0.5 w-full transition-all duration-300" />
+							)}
+						</button>
+					))}
+				</div>
+			)
+		}
+	</div>
+
+	{
+		isMobile && (
+			<div class="animate-fade-in absolute top-full right-0 left-0 z-10 bg-white shadow-lg">
+				<div class="flex flex-col py-2">
+					{navItems.map((item) => (
+						<button
+							class={`px-6 py-3 text-left hover:bg-slate-50 ${currentPage === item.id ? 'text-primary font-medium' : 'text-slate-700'}`}
+						>
+							{item.label}
+						</button>
+					))}
+				</div>
+			</div>
+		)
+	}
+</nav>
