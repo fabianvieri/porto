@@ -1,0 +1,42 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer
+	class="border-t border-gray-200 bg-white/80 py-4 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"
+>
+	<div class="container mx-auto px-4">
+		<div class="flex flex-col items-center justify-between gap-2 md:flex-row">
+			<!-- Copyright -->
+			<div class="text-sm text-gray-600 dark:text-gray-400">
+				© {currentYear} Fabian Vieri. All rights reserved.
+			</div>
+
+			<!-- Social Links -->
+			<div class="flex items-center gap-6 text-sm">
+				<a
+					href="https://github.com/yourusername"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+				>
+					GitHub
+				</a>
+				<a
+					href="https://linkedin.com/in/yourusername"
+					target="_blank"
+					rel="noopener noreferrer"
+					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+				>
+					LinkedIn
+				</a>
+				<a
+					href="mailto:your.email@example.com"
+					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
+				>
+					Email
+				</a>
+			</div>
+		</div>
+	</div>
+</footer>

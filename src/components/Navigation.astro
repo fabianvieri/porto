@@ -1,58 +1,134 @@
 ---
-import { Menu } from '@lucide/astro';
-import { Button } from './ui/button';
+import { Menu, Sun, Moon } from '@lucide/astro';
 
 const navItems = [
-	{ id: 'home', label: 'Home' },
-	{ id: 'about', label: 'About' },
-	{ id: 'portfolio', label: 'Portfolio' },
-	{ id: 'blog', label: 'Blog' },
+	{ path: '/', label: 'Home' },
+	{ path: '/about/', label: 'About' },
+	{ path: '/portfolio/', label: 'Portfolio' },
+	{ path: '/blog/', label: 'Blog' },
 ];
-
-const isMobile = false;
-const currentPage = '';
-const hoveredItem = '';
 ---
 
-<nav class="relative z-20">
-	<div class="flex items-center justify-between px-4 py-6">
-		<div class="text-primary text-xl font-bold">Portfolio</div>
+<header
+	class="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"
+>
+	<nav class="container mx-auto px-4 py-4">
+		<div class="flex items-center justify-between">
+			<!-- Logo/Brand -->
+			<a href="/" class="text-xl font-semibold text-gray-800 dark:text-white">
+				FV
+			</a>
 
-		{
-			isMobile ? (
-				<Button variant="ghost" size="icon" aria-label="Toggle menu">
-					<Menu class="h-6 w-6" />
-				</Button>
-			) : (
-				<div class="flex space-x-8">
-					{navItems.map((item) => (
-						<button
-							class={`nav-link relative ${currentPage === item.id ? 'active' : ''}`}
+			<!-- Desktop Navigation -->
+			<div class="hidden items-center space-x-8 md:flex">
+				{
+					navItems.map(({ path, label }) => (
+						<a
+							href={`${path}`}
+							class="text-gray-700 transition-colors duration-200 hover:text-black dark:text-gray-200 dark:hover:text-white"
 						>
-							{item.label}
-							{hoveredItem === item.id && currentPage !== item.id && (
-								<div class="bg-primary/40 absolute bottom-0 left-0 h-0.5 w-full transition-all duration-300" />
-							)}
-						</button>
-					))}
-				</div>
-			)
-		}
-	</div>
+							{label}
+						</a>
+					))
+				}
 
-	{
-		isMobile && (
-			<div class="animate-fade-in absolute top-full right-0 left-0 z-10 bg-white shadow-lg">
-				<div class="flex flex-col py-2">
-					{navItems.map((item) => (
-						<button
-							class={`px-6 py-3 text-left hover:bg-slate-50 ${currentPage === item.id ? 'text-primary font-medium' : 'text-slate-700'}`}
-						>
-							{item.label}
-						</button>
-					))}
-				</div>
+				<!-- Theme Toggle -->
+				<button
+					id="theme-toggle"
+					class="rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+					aria-label="Toggle theme"
+				>
+					<Sun class="hidden dark:block" size={20} />
+					<Moon class="block dark:hidden" size={20} />
+				</button>
 			</div>
-		)
+
+			<div class="flex items-center space-x-4 md:hidden">
+				<!-- Theme Toggle Mobile -->
+				<button
+					id="theme-toggle-mobile"
+					class="rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+					aria-label="Toggle theme"
+				>
+					<Sun class="hidden dark:block" size={20} />
+					<Moon class="block dark:hidden" size={20} />
+				</button>
+
+				<!-- Mobile Menu Button -->
+				<button
+					id="mobile-menu-button"
+					class="cursor-pointer p-2 text-gray-700 hover:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-gray-800"
+					aria-label="Toggle mobile menu"
+				>
+					<Menu size={24} />
+				</button>
+			</div>
+		</div>
+
+		<!-- Mobile Navigation -->
+		<div id="mobile-menu" class="hidden md:hidden">
+			<div class="flex flex-col space-y-4 py-4">
+				{
+					navItems.map(({ path, label }) => (
+						<a
+							href={`${path}`}
+							class="text-gray-700 transition-colors duration-200 hover:text-black dark:text-gray-200 dark:hover:text-white"
+						>
+							{label}
+						</a>
+					))
+				}
+			</div>
+		</div>
+	</nav>
+</header>
+
+<script>
+	// Existing mobile menu code
+	const mobileMenuButton = document.getElementById('mobile-menu-button');
+	const mobileMenu = document.getElementById('mobile-menu');
+
+	if (mobileMenuButton && mobileMenu) {
+		mobileMenuButton.addEventListener('click', () => {
+			mobileMenu.classList.toggle('hidden');
+		});
+
+		document.addEventListener('click', (event) => {
+			const target = event.target;
+			if (
+				target instanceof HTMLElement &&
+				!mobileMenu.contains(target) &&
+				!mobileMenuButton.contains(target)
+			) {
+				mobileMenu.classList.add('hidden');
+			}
+		});
 	}
-</nav>
+
+	// Theme toggle functionality
+	const handleThemeToggle = () => {
+		document.documentElement.classList.toggle('dark');
+		localStorage.setItem(
+			'theme',
+			document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+		);
+	};
+
+	// Theme toggle buttons
+	const themeToggle = document.getElementById('theme-toggle');
+	const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+
+	themeToggle?.addEventListener('click', handleThemeToggle);
+	themeToggleMobile?.addEventListener('click', handleThemeToggle);
+
+	// Set initial theme
+	if (
+		localStorage.theme === 'dark' ||
+		(!localStorage.theme &&
+			window.matchMedia('(prefers-color-scheme: dark)').matches)
+	) {
+		document.documentElement.classList.add('dark');
+	} else {
+		document.documentElement.classList.remove('dark');
+	}
+</script>
