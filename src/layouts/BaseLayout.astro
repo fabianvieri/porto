@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+
 import Footer from '@/components/Footer.astro';
 import Navigation from '@/components/Navigation.astro';
 
@@ -13,11 +15,12 @@ const { pageTitle = 'Portofolio' } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{pageTitle}</title>
+		<ClientRouter />
 	</head>
 	<body class="flex h-full flex-col bg-white dark:bg-gray-900">
 		<Navigation />
 		<main class="flex-1 overflow-auto">
-			<slot />
+			<div class="container mx-auto p-4"><slot /></div>
 		</main>
 		<Footer />
 	</body>

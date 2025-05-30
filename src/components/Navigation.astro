@@ -1,134 +1,43 @@
 ---
-import { Menu, Sun, Moon } from '@lucide/astro';
+import { Sun, Moon } from '@lucide/astro';
 
 const navItems = [
 	{ path: '/', label: 'Home' },
-	{ path: '/about/', label: 'About' },
-	{ path: '/portfolio/', label: 'Portfolio' },
+	{ path: '/project/', label: 'Project' },
+	{ path: '/course/', label: 'Course' },
 	{ path: '/blog/', label: 'Blog' },
 ];
+
+const currentPath = Astro.url.pathname;
 ---
 
-<header
-	class="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"
->
-	<nav class="container mx-auto px-4 py-4">
-		<div class="flex items-center justify-between">
-			<!-- Logo/Brand -->
-			<a href="/" class="text-xl font-semibold text-gray-800 dark:text-white">
-				FV
-			</a>
-
-			<!-- Desktop Navigation -->
-			<div class="hidden items-center space-x-8 md:flex">
+<header class="bg-white/80 dark:bg-gray-900/80">
+	<nav class="container mx-auto p-4">
+		<div class="flex items-center justify-center">
+			<div class="flex items-center space-x-2 text-sm sm:space-x-5">
 				{
-					navItems.map(({ path, label }) => (
-						<a
-							href={`${path}`}
-							class="text-gray-700 transition-colors duration-200 hover:text-black dark:text-gray-200 dark:hover:text-white"
-						>
-							{label}
-						</a>
-					))
-				}
-
-				<!-- Theme Toggle -->
-				<button
-					id="theme-toggle"
-					class="rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
-					aria-label="Toggle theme"
-				>
-					<Sun class="hidden dark:block" size={20} />
-					<Moon class="block dark:hidden" size={20} />
-				</button>
-			</div>
-
-			<div class="flex items-center space-x-4 md:hidden">
-				<!-- Theme Toggle Mobile -->
-				<button
-					id="theme-toggle-mobile"
-					class="rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
-					aria-label="Toggle theme"
-				>
-					<Sun class="hidden dark:block" size={20} />
-					<Moon class="block dark:hidden" size={20} />
-				</button>
-
-				<!-- Mobile Menu Button -->
-				<button
-					id="mobile-menu-button"
-					class="cursor-pointer p-2 text-gray-700 hover:bg-gray-100 focus:outline-none dark:text-gray-200 dark:hover:bg-gray-800"
-					aria-label="Toggle mobile menu"
-				>
-					<Menu size={24} />
-				</button>
-			</div>
-		</div>
-
-		<!-- Mobile Navigation -->
-		<div id="mobile-menu" class="hidden md:hidden">
-			<div class="flex flex-col space-y-4 py-4">
-				{
-					navItems.map(({ path, label }) => (
-						<a
-							href={`${path}`}
-							class="text-gray-700 transition-colors duration-200 hover:text-black dark:text-gray-200 dark:hover:text-white"
-						>
-							{label}
-						</a>
-					))
+					navItems.map(({ path, label }) => {
+						const isActive = currentPath === path;
+						return (
+							<a
+								href={path}
+								class={`group relative px-2 py-1 text-xs transition-colors duration-200 sm:text-sm ${
+									isActive
+										? 'font-semibold text-gray-900 dark:text-white'
+										: 'text-gray-700 dark:text-gray-200'
+								}`}
+							>
+								{label}
+								<span
+									class={`absolute -bottom-0.5 left-0 h-0.5 w-0 bg-current opacity-70 transition-all duration-300 ease-out ${
+										isActive ? 'w-full' : 'group-hover:w-full'
+									}`}
+								/>
+							</a>
+						);
+					})
 				}
 			</div>
 		</div>
 	</nav>
 </header>
-
-<script>
-	// Existing mobile menu code
-	const mobileMenuButton = document.getElementById('mobile-menu-button');
-	const mobileMenu = document.getElementById('mobile-menu');
-
-	if (mobileMenuButton && mobileMenu) {
-		mobileMenuButton.addEventListener('click', () => {
-			mobileMenu.classList.toggle('hidden');
-		});
-
-		document.addEventListener('click', (event) => {
-			const target = event.target;
-			if (
-				target instanceof HTMLElement &&
-				!mobileMenu.contains(target) &&
-				!mobileMenuButton.contains(target)
-			) {
-				mobileMenu.classList.add('hidden');
-			}
-		});
-	}
-
-	// Theme toggle functionality
-	const handleThemeToggle = () => {
-		document.documentElement.classList.toggle('dark');
-		localStorage.setItem(
-			'theme',
-			document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-		);
-	};
-
-	// Theme toggle buttons
-	const themeToggle = document.getElementById('theme-toggle');
-	const themeToggleMobile = document.getElementById('theme-toggle-mobile');
-
-	themeToggle?.addEventListener('click', handleThemeToggle);
-	themeToggleMobile?.addEventListener('click', handleThemeToggle);
-
-	// Set initial theme
-	if (
-		localStorage.theme === 'dark' ||
-		(!localStorage.theme &&
-			window.matchMedia('(prefers-color-scheme: dark)').matches)
-	) {
-		document.documentElement.classList.add('dark');
-	} else {
-		document.documentElement.classList.remove('dark');
-	}
-</script>

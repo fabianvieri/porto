@@ -1,42 +1,75 @@
 ---
-const currentYear = new Date().getFullYear();
+import { Sun, Moon } from '@lucide/astro';
+
+const socials = [
+	{
+		name: 'GitHub',
+		url: 'https://github.com/fabianvieri',
+		class: 'hover:text-gray-900 dark:hover:text-white',
+	},
+	{
+		name: 'LinkedIn',
+		url: 'https://linkedin.com/in/fabianvieri',
+		class: 'hover:text-blue-600 dark:hover:text-blue-400',
+	},
+];
 ---
 
-<footer
-	class="border-t border-gray-200 bg-white/80 py-4 backdrop-blur-md dark:border-gray-800 dark:bg-gray-900/80"
->
-	<div class="container mx-auto px-4">
-		<div class="flex flex-col items-center justify-between gap-2 md:flex-row">
-			<!-- Copyright -->
-			<div class="text-sm text-gray-600 dark:text-gray-400">
-				© {currentYear} Fabian Vieri. All rights reserved.
-			</div>
-
-			<!-- Social Links -->
-			<div class="flex items-center gap-6 text-sm">
-				<a
-					href="https://github.com/yourusername"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-				>
-					GitHub
-				</a>
-				<a
-					href="https://linkedin.com/in/yourusername"
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-				>
-					LinkedIn
-				</a>
-				<a
-					href="mailto:your.email@example.com"
-					class="text-gray-600 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-				>
-					Email
-				</a>
-			</div>
+<footer class="container mx-auto border-t border-gray-200 dark:border-gray-800">
+	<div class="flex items-center justify-between p-4">
+		<!-- Social Links -->
+		<div
+			class="flex items-center space-x-4 text-sm text-gray-600 dark:text-gray-400"
+		>
+			{
+				socials.map(({ name, url, class: className }) => (
+					<a
+						href={url}
+						target="_blank"
+						rel="noopener noreferrer"
+						class={`transition-colors duration-200 ${className}`}
+					>
+						{name}
+					</a>
+				))
+			}
 		</div>
+
+		<!-- Theme Toggle -->
+		<button
+			id="theme-toggle"
+			class="cursor-pointer rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+			aria-label="Toggle theme"
+		>
+			<Sun class="hidden dark:block" size="20" />
+			<Moon class="block dark:hidden" size="20" />
+		</button>
 	</div>
 </footer>
+
+<script is:inline>
+	document.addEventListener('astro:page-load', () => {
+		const themeEl = document.getElementById('theme-toggle');
+
+		if (themeEl) {
+			themeEl.addEventListener('click', () => {
+				document.documentElement.classList.toggle('dark');
+				localStorage.setItem(
+					'theme',
+					document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+				);
+			});
+		}
+	});
+
+	// set initial theme
+	if (
+		localStorage.theme === 'dark' ||
+		(!localStorage.theme &&
+			window.matchMedia('(prefers-color-scheme: dark)').matches)
+	) {
+		document.documentElement.classList.add('dark');
+	} else {
+		document.documentElement.classList.remove('dark');
+	}
+</script>
