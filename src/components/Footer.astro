@@ -49,22 +49,14 @@ const socials = [
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
-		const favicon = document.getElementById('favicon');
 		const themeEl = document.getElementById('theme-toggle');
 
-		if (themeEl && favicon) {
+		if (themeEl) {
 			// add event listener
 			themeEl.addEventListener('click', () => {
 				document.documentElement.classList.toggle('dark');
 				const isDarkTheme = document.documentElement.classList.contains('dark');
 				localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-
-				// update favicon
-				if (isDarkTheme) {
-					favicon.href = '/dark-favicon.svg';
-				} else {
-					favicon.href = '/favicon.svg';
-				}
 			});
 		}
 
@@ -74,7 +66,6 @@ const socials = [
 			(!localStorage.theme &&
 				window.matchMedia('(prefers-color-scheme: dark)').matches)
 		) {
-			favicon.href = '/dark-favicon.svg';
 			document.documentElement.classList.add('dark');
 		} else {
 			document.documentElement.classList.remove('dark');
