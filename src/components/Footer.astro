@@ -49,27 +49,35 @@ const socials = [
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
+		const favicon = document.getElementById('favicon');
 		const themeEl = document.getElementById('theme-toggle');
 
-		if (themeEl) {
+		if (themeEl && favicon) {
+			// add event listener
 			themeEl.addEventListener('click', () => {
 				document.documentElement.classList.toggle('dark');
-				localStorage.setItem(
-					'theme',
-					document.documentElement.classList.contains('dark') ? 'dark' : 'light'
-				);
+				const isDarkTheme = document.documentElement.classList.contains('dark');
+				localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+
+				// update favicon
+				if (isDarkTheme) {
+					favicon.href = '/dark-favicon.svg';
+				} else {
+					favicon.href = '/favicon.svg';
+				}
 			});
 		}
-	});
 
-	// set initial theme
-	if (
-		localStorage.theme === 'dark' ||
-		(!localStorage.theme &&
-			window.matchMedia('(prefers-color-scheme: dark)').matches)
-	) {
-		document.documentElement.classList.add('dark');
-	} else {
-		document.documentElement.classList.remove('dark');
-	}
+		// set initial theme
+		if (
+			localStorage.theme === 'dark' ||
+			(!localStorage.theme &&
+				window.matchMedia('(prefers-color-scheme: dark)').matches)
+		) {
+			favicon.href = '/dark-favicon.svg';
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	});
 </script>
