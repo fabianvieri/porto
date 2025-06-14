@@ -1,7 +1,64 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogCard from '@/components/BlogCard.astro';
+
+// Dummy blog data
+const blogPosts = [
+	{
+		title: 'Building Modern Web Applications with Astro',
+		description:
+			"Learn how to leverage Astro's powerful features to create fast, efficient web applications with optimal client-side JavaScript.",
+		date: 'June 10, 2025',
+		readingTime: '8',
+		tags: ['Astro', 'Web Development', 'Performance'],
+		slug: 'building-modern-web-applications-with-astro',
+	},
+	{
+		title: 'The Future of TypeScript Development',
+		description:
+			'Exploring upcoming TypeScript features and how they will impact the development landscape in the coming years.',
+		date: 'June 5, 2025',
+		readingTime: '6',
+		tags: ['TypeScript', 'JavaScript', 'Programming'],
+		slug: 'future-of-typescript-development',
+	},
+	{
+		title: 'Maximizing Performance with React Server Components',
+		description:
+			"A deep dive into React Server Components and how they can improve your application's performance and user experience.",
+		date: 'May 28, 2025',
+		readingTime: '10',
+		tags: ['React', 'Performance', 'Web Development'],
+		slug: 'maximizing-performance-react-server-components',
+	},
+	{
+		title: 'Building Scalable APIs with Node.js',
+		description:
+			'Best practices and patterns for creating robust, scalable REST APIs using Node.js and Express.',
+		date: 'May 20, 2025',
+		readingTime: '12',
+		tags: ['Node.js', 'API', 'Backend'],
+		slug: 'building-scalable-apis-with-nodejs',
+	},
+];
 ---
 
-<BaseLayout pageTitle="Blogs">
-	<h1>Blogs</h1>
+<BaseLayout pageTitle="Blog">
+	<main class="container mx-auto max-w-3xl px-4 py-16">
+		<!-- Header Section -->
+		<div class="mb-12">
+			<h1 class="text-4xl font-bold text-gray-800 dark:text-gray-100">
+				Blog Posts
+			</h1>
+			<p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+				Thoughts, learnings, and insights about web development, programming,
+				and technology.
+			</p>
+		</div>
+
+		<!-- Blog Posts Grid -->
+		<div class="space-y-6">
+			{blogPosts.map((post) => <BlogCard {...post} />)}
+		</div>
+	</main>
 </BaseLayout>
