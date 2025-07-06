@@ -1,4 +1,5 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
 const navItems = [
 	{ path: '/', label: 'Home' },
 	{ path: '/project/', label: 'Project' },
@@ -11,7 +12,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="bg-white/80 dark:bg-gray-900/80">
 	<nav class="container mx-auto p-4">
-		<div class="flex items-center justify-center">
+		<div class="flex flex-col items-center justify-between gap-y-2 text-center sm:flex-row sm:text-left">
 			<div class="flex items-center space-x-2 text-sm sm:space-x-5">
 				{
 					navItems.map(({ path, label }) => {
@@ -36,6 +37,7 @@ const currentPath = Astro.url.pathname;
 					})
 				}
 			</div>
+			<ThemeToggle />
 		</div>
 	</nav>
 </header>
