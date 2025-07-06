@@ -3,22 +3,19 @@ import { Sun, Moon } from '@lucide/astro';
 ---
 
 <button
-	id="theme-toggle"
-	class="cursor-pointer rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
+	class="theme-toggle cursor-pointer rounded-md p-2 text-gray-700 hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-800"
 	aria-label="Toggle theme"
 >
 	<Sun class="hidden dark:block" size="20" />
 	<Moon class="block dark:hidden" size="20" />
 </button>
-
-<script is:inline>
-	const themeEl = document.getElementById('theme-toggle');
-
-	if (themeEl) {
-		themeEl.addEventListener('click', () => {
+<script>
+	const themeToggles = document.querySelectorAll('.theme-toggle');
+	themeToggles.forEach((toggle) => {
+		toggle.addEventListener('click', () => {
 			document.documentElement.classList.toggle('dark');
 			const isDarkTheme = document.documentElement.classList.contains('dark');
 			localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
 		});
-	}
+	});
 </script>
