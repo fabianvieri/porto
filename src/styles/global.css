@@ -128,3 +128,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom scrollbar for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 12px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: oklch(0.208 0.042 265.755);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: oklch(0.279 0.041 260.031);
+  border-radius: 6px;
+  border: 3px solid oklch(0.208 0.042 265.755);
+}
+
+/* Firefox scrollbar */
+.dark {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.279 0.041 260.031) oklch(0.208 0.042 265.755);
+}
