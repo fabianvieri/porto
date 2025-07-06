@@ -11,24 +11,84 @@ const technologies = [
 	'Git',
 	'Docker',
 ];
+
+const projects = [
+	{
+		title: 'Project Alpha',
+		description:
+			'A web application built for managing tasks and projects efficiently.',
+		image: '/400x400.svg',
+		technologies: ['React.js', 'Node.js', 'PostgreSQL'],
+		liveLink: '#',
+		githubLink: '#',
+	},
+	{
+		title: 'Project Beta',
+		description:
+			'An e-commerce platform with a focus on user experience and performance.',
+		image: '/400x400.svg',
+		technologies: ['Angular', 'TypeScript', 'Tailwind CSS'],
+		liveLink: '#',
+		githubLink: '#',
+	},
+	{
+		title: 'Project Gamma',
+		description:
+			'A data visualization tool for analyzing complex datasets.',
+		image: '/400x400.svg',
+		technologies: ['React.js', 'TypeScript', 'D3.js'],
+		liveLink: '#',
+		githubLink: '#',
+	},
+];
 ---
 
 <BaseLayout pageTitle="Home">
 	<main class="container mx-auto max-w-3xl px-4 py-16">
 		<!-- Hero Section -->
-		<div class="mb-16 space-y-4">
-			<h1
-				class="text-4xl font-bold text-gray-800 sm:text-5xl dark:text-gray-100"
-			>
-				Full Stack Developer
-			</h1>
-			<p class="text-lg text-gray-600 dark:text-gray-300">
-				Crafting digital experiences with clean, efficient code.
-			</p>
+		<div
+			class="mb-16 flex flex-col items-center text-center md:flex-row md:text-left"
+		>
+			<div class="animate-fade-in animation-delay-100 mb-8 md:mr-8 md:mb-0">
+				<img
+					src="/400x400.svg"
+					alt="Fabian Vieri"
+					class="h-32 w-32 rounded-full object-cover shadow-lg"
+				/>
+			</div>
+			<div class="space-y-4">
+				<h1
+					class="animate-fade-in-up animation-delay-200 text-4xl font-bold text-gray-800 sm:text-5xl dark:text-gray-100"
+				>
+					Hi, I'm Fabian Vieri.
+				</h1>
+				<p
+					class="animate-fade-in-up animation-delay-300 text-lg text-gray-600 dark:text-gray-300"
+				>
+					A Full Stack Developer Building Modern and Performant Web
+					Applications.
+				</p>
+				<div
+					class="animate-fade-in-up animation-delay-400 flex justify-center space-x-4 md:justify-start"
+				>
+					<a
+						href="/project"
+						class="rounded-md bg-gray-800 px-4 py-2 text-base font-semibold text-white transition-colors duration-200 hover:bg-gray-700 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-gray-200"
+					>
+						View My Projects
+					</a>
+					<a
+						href="/course"
+						class="rounded-md border border-gray-300 px-4 py-2 text-base font-semibold text-gray-800 transition-colors duration-200 hover:bg-gray-100 dark:border-gray-700 dark:text-gray-200 dark:hover:bg-gray-800"
+					>
+						View My Courses
+					</a>
+				</div>
+			</div>
 		</div>
 
 		<!-- About Section -->
-		<div class="space-y-12">
+		<div class="animate-fade-in animation-delay-500 space-y-12">
 			<div class="prose dark:prose-invert">
 				<p class="text-gray-600 dark:text-gray-300">
 					I'm a Full Stack Developer focused on building modern web
@@ -38,6 +98,59 @@ const technologies = [
 				</p>
 			</div>
 
+			<!-- Featured Projects Section -->
+			<div class="space-y-6">
+				<h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
+					Featured Projects
+				</h2>
+				<div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{
+						projects.map((project, index) => (
+							<div
+								class={`animate-fade-in rounded-lg bg-white p-6 shadow-lg transition-colors duration-200 hover:bg-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 animation-delay-${700 + index * 100}`}
+							>
+								<img
+									src={project.image}
+									alt={project.title}
+									class="mb-4 h-40 w-full rounded-md object-cover"
+								/>
+								<h3 class="mb-2 text-lg font-semibold text-gray-800 dark:text-gray-100">
+									{project.title}
+								</h3>
+								<p class="mb-4 text-sm text-gray-600 dark:text-gray-300">
+									{project.description}
+								</p>
+								<div class="mb-4 flex flex-wrap gap-2">
+									{project.technologies.map((tech) => (
+										<span class="rounded-md bg-gray-100 px-2 py-1 text-xs text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+											{tech}
+										</span>
+									))}
+								</div>
+								<div class="flex space-x-4">
+									<a
+										href={project.liveLink}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="text-sm font-semibold text-blue-600 hover:underline dark:text-blue-400"
+									>
+										Live Demo
+									</a>
+									<a
+										href={project.githubLink}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="text-sm font-semibold text-gray-600 hover:underline dark:text-gray-300"
+									>
+										GitHub
+									</a>
+								</div>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
 			<!-- Tech Stack -->
 			<div class="space-y-6">
 				<h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">
@@ -45,8 +158,8 @@ const technologies = [
 				</h2>
 				<div class="flex flex-wrap gap-3">
 					{
-						technologies.map((tech) => (
-							<span class="rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-800 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+						technologies.map((tech, index) => (
+							<span class={`rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-800 transition-colors hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 animate-fade-in animation-delay-${600 + index * 100}`}>
 								{tech}
 							</span>
 						))
